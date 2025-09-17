@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Interactive Array Methods Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="p-6 bg-gray-100 min-h-screen flex flex-col items-center">
+
+    <h1 class="text-2xl font-bold mb-6">JavaScript Array Methods (ES6)</h1>
+
+    <!-- Input Section -->
+    <div class="bg-white p-6 rounded shadow-md w-full max-w-md mb-6">
+        <label for="arrayInput" class="block mb-2 font-medium">Enter numbers (comma separated):</label>
+        <input id="arrayInput" type="text" value="1,2,3,4,5" class="w-full p-2 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400">
+
+        <!-- Buttons -->
+        <div class="flex flex-wrap gap-2">
+            <button onclick="runForEach()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">forEach</button>
+            <button onclick="runMap()" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">map</button>
+            <button onclick="runFilter()" class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">filter</button>
+            <button onclick="runReduce()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">reduce</button>
+            <button onclick="runSplice()" class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">splice</button>
+        </div>
+    </div>
+
+    <!-- Output Section -->
+    <div id="output" class="bg-white p-6 rounded shadow-md w-full max-w-md space-y-4">
+        <p class="font-medium text-gray-700">Results will appear here...</p>
+    </div>
+
+    <script>
+        function getArray() {
+            const input = document.getElementById("arrayInput").value;
+            return input.split(",").map(num => parseInt(num.trim())).filter(n => !isNaN(n));
+        }
+
+        function showResult(method, result) {
+            document.getElementById("output").innerHTML +=
+                `<p><b>${method}:</b> ${Array.isArray(result) ? result.join(", ") : result}</p>`;
+        }
+
+        function clearOutput() {
+            document.getElementById("output").innerHTML = "";
+        }
+
+        function runForEach() {
+            clearOutput();
+            const arr = getArray();
+            let result = "";
+            arr.forEach(num => result += num + " ");
+            showResult("forEach", result.trim());
+        }
+
+        function runMap() {
+            clearOutput();
+            const arr = getArray();
+            const result = arr.map(num => num * 2);
+            showResult("map (x2)", result);
+        }
+
+        function runFilter() {
+            clearOutput();
+            const arr = getArray();
+            const result = arr.filter(num => num % 2 === 0);
+            showResult("filter (evens)", result);
+        }
+
+        function runReduce() {
+            clearOutput();
+            const arr = getArray();
+            const result = arr.reduce((acc, num) => acc + num, 0);
+            showResult("reduce (sum)", result);
+        }
+
+        function runSplice() {
+            clearOutput();
+            const arr = getArray();
+            const copy = [...arr];
+            copy.splice(2, 1, 99); // replace index 2 with 99
+            showResult("splice (replace 3rd element with 99)", copy);
+        }
+    </script>
+</body>
+
+</html>
